@@ -1,0 +1,191 @@
+@import './_variables.scss';
+// setLine
+@mixin setTopLine($c: $global-border-color) {
+  content: ' ';
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  height: 0.02rem;
+  border-top: 0.02rem solid $c;
+  color: $c;
+  transform-origin: 0 0;
+  transform: scaleY(0.5);
+  z-index: 1;
+}
+
+@mixin setBottomLine($c: $global-border-color) {
+  content: ' ';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 0.02rem;
+  border-bottom: 0.02rem solid $c;
+  color: $c;
+  transform-origin: 0 100%;
+  transform: scaleY(0.5);
+  z-index: 1;
+}
+
+@mixin setLeftLine($c: $global-border-color) {
+  content: ' ';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0.02rem;
+  bottom: 0;
+  border-left: 0.02rem solid $c;
+  color: $c;
+  transform-origin: 0 0;
+  transform: scaleX(0.5);
+  z-index: 1;
+}
+
+@mixin setRightLine($c: $global-border-color) {
+  content: ' ';
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 0.02rem;
+  bottom: 0;
+  border-right: 0.02rem solid $c;
+  color: $c;
+  transform-origin: 100% 0;
+  transform: scaleX(0.5);
+  z-index: 1;
+}
+
+@mixin setAllLine($c: $global-border-color, $radius: 0.16rem) {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  border: 0.01rem $c solid;
+  border-radius: $radius;
+  width: 200%;
+  height: 200%;
+  transform: scale(0.5, 0.5);
+  box-sizing: border-box;
+  transform-origin: 0 0;
+  pointer-events: none;
+}
+
+// ellipsis
+@mixin ellipsis($w:auto) {
+  width: $w;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: normal;
+}
+
+@mixin ellipsisLn($line) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $line;
+}
+
+// setActiveTap
+@mixin setActiveTap($v: $global-active-color) {
+  &:active {
+    @if type-of($v)=='color' {
+      background-color: $v;
+    }
+    @else {
+      opacity: $v;
+    }
+  }
+}
+
+@mixin setDot($item) {
+  &.dot {
+    position: relative;
+    &:after {
+      content: '';
+      position: absolute;
+      background: #F76464;
+      width: 0.16rem;
+      height: 0.16rem;
+      border-radius: 50%;
+      @each $key,
+      $value in $item {
+        #{$key}: $value;
+      }
+    }
+  }
+}
+
+@mixin setMask($c: $global-mask-color, $z: 99) {
+  position: fixed;
+  background: $c;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  z-index: $z;
+}
+
+// bem
+$elementSeparator: '__';
+$modifierSeparator: '--';
+@function containsModifier($selector) {
+  $selector: selectorToString($selector);
+  @if str-index($selector, $modifierSeparator) {
+    @return true;
+  }
+  @else {
+    @return false;
+  }
+}
+
+@function selectorToString($selector) {
+  $selector: inspect($selector);
+  $selector: str-slice($selector, 2, -2);
+  @return $selector;
+}
+
+@function getBlock($selector) {
+  $selector: selectorToString($selector);
+  $modifierStart: str-index($selector, $modifierSeparator) - 1;
+  @return str-slice($selector, 0, $modifierStart);
+}
+
+@mixin b($block) {
+  .#{$block} {
+    @content;
+  }
+}
+
+@mixin e($element) {
+  $selector: &;
+  @if containsModifier($selector) {
+    $block: getBlock($selector);
+    @at-root {
+      #{$selector} {
+        #{$block + $elementSeparator + $element} {
+          @content;
+        }
+      }
+    }
+  }
+  @else {
+    @at-root {
+      #{$selector + $elementSeparator + $element} {
+        @content;
+      }
+    }
+  }
+}
+
+@mixin m($modifier) {
+  @at-root {
+    #{ &}#{$modifierSeparator + $modifier} {
+      @content;
+    }
+  }
+}
