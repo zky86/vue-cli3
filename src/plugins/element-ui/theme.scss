@@ -1,0 +1,12 @@
+$--color-primary: $color-theme;
+$--color-success: $color-success;
+$--color-warning: $color-warning;
+$--color-danger: $color-danger;
+// $--color-info: #909399 !default;
+$--color-text-primary: $color-text-primary;
+$--color-text-regular: $color-text-regular;
+$--color-text-secondary: $color-text-secondary;
+
+$--table-header-color: $color-text-primary;
+$--font-path: "~element-ui/lib/theme-chalk/fonts";
+@import "~element-ui/packages/theme-chalk/src/index";

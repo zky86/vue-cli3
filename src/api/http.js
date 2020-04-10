@@ -3,7 +3,7 @@ import { Notification } from 'element-ui'
 import store from '@/store'
 import * as utils from '@/utils'
 
-const instance = axios.create({ baseURL: '/api/manager' })
+const instance = axios.create({ baseURL: '' })
 
 const errorHandle = (status, message) => {
   switch (status) {
@@ -23,7 +23,7 @@ instance
   .interceptors
   .request
   .use(config => {
-    const token = store.state.auth.token
+    const token = store.state.token
     token && (config.headers.common.Authorization = token)
     if (config.method === 'post' && config.data) {
       if (config.headers['Content-Type'] === 'multipart/form-data') {

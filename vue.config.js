@@ -20,12 +20,12 @@ module.exports = {
     isProduction
   },
   devServer: {
-    // proxy: {
-    //   '/api/manager': {
-    //     // target: '',
-    //     // ws: true,
-    //     // changeOrigin: true
-    //   }
-    // }
+    proxy: {
+      '': {
+        target: 'http://localhost:7001',
+        ws: true,
+        changeOrigin: true
+      }
+    }
   }
 }

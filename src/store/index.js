@@ -24,7 +24,8 @@ const plugin = store => {
 
 export default new Vuex.Store({
   state: {
-    collapse: false
+    collapse: false,
+    token: 'abcd'
   },
   modules: {
     global
