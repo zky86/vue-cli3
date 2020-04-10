@@ -8,10 +8,10 @@
         label-width="100px"
         class="demo-ruleForm"
       >
-        <el-form-item label="账号" prop="name">
-          <el-input v-model="ruleForm.name"></el-input>
+        <el-form-item label="账号" prop="">
+          <el-input v-model="ruleForm.userName"></el-input>
         </el-form-item>
-        <el-form-item label="密码" prop="password">
+        <el-form-item label="密码" prop="">
           <el-input v-model="ruleForm.password"></el-input>
         </el-form-item>
       </el-form>
@@ -29,11 +29,11 @@ export default {
   data () {
     return {
       ruleForm: {
-        name: '',
+        userName: '',
         password: ''
       },
       rules: {
-        name: [{ required: true, message: '请输入', trigger: 'blur' }],
+        userName: [{ required: true, message: '请输入', trigger: 'blur' }],
         password: [{ required: true, message: '请输入', trigger: 'blur' }]
       }
     }
@@ -46,7 +46,10 @@ export default {
     login () {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          const data = {}
+          const data = {
+            userName: this.ruleForm.userName,
+            password: this.ruleForm.password
+          }
           const ret = api.auth.login(data)
           console.log(ret)
         } else {
