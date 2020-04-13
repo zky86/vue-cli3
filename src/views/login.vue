@@ -57,7 +57,7 @@ export default {
               type: 'success'
             })
             this.$router.push({
-              name: 'index-list',
+              name: 'login_state',
               query: { token: ret.data.token }
             })
           }
@@ -73,9 +73,6 @@ export default {
 
 <style lang="scss">
 .p1th {
-  width: 50%;
-  margin: 0 auto;
-  padding: 100px 0;
   .btn {
     text-align: center;
   }

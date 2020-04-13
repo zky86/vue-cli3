@@ -1,16 +1,22 @@
 <template>
   <div>
     <div class="p1th">
-      <h3>文章列表111</h3>
+      <h3>11</h3>
       <div class="list">123</div>
     </div>
   </div>
 </template>
 
 <script>
-// import * as api from '@/api'
-import * as api from '@/api'
+import store from '@/store'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 export default {
+  beforeRouteEnter (to, from, next) {
+    store.commit('login', to.query.token)
+    next({ name: 'index-tabNav' })
+    NProgress.done()
+  },
   data () {
     return {
       ruleForm: {}
@@ -19,18 +25,14 @@ export default {
   created () {},
 
   mounted () {
-
   },
 
   methods: {
-    getList () {
-    }
   }
 }
 </script>
 
 <style lang="scss">
 .p1th {
-
 }
 </style>

@@ -8,7 +8,6 @@
 
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
-
 // export default {
 //   name: 'App',
 //   components: {
@@ -19,4 +18,9 @@
 
 <style lang="scss">
 @import '@/assets/styles/reset.scss';
+#app{
+  width: 60%;
+  margin: 0 auto;
+  padding: 100px 0;
+}
 </style>
