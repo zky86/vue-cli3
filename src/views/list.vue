@@ -36,7 +36,7 @@ export default {
 
       }
       const ret = await api.menu.getList(data)
-      console.log(ret)
+      // console.log(ret)
     }
   }
 }

@@ -2,10 +2,12 @@ import axios from 'axios'
 import { Notification } from 'element-ui'
 import store from '@/store'
 import * as utils from '@/utils'
+import router from '../router'
 
 const instance = axios.create({ baseURL: '' })
 
 const errorHandle = (status, message) => {
+  console.log(status)
   switch (status) {
     case 401:
       store.dispatch('logout')
@@ -41,11 +43,17 @@ instance
   .interceptors
   .response
   .use(response => {
-    response.success = response.data.success
-    if (!response.success) {
-      response.data.message && Notification.error({ title: '失败', message: response.data.message })
-    } else {
-      response.config.method === 'post' && response.data.message && Notification.success({ title: '成功', message: response.data.message })
+    // response.success = response.data.success
+    // console.log(response)
+    // if (!response.success) {
+    //   response.data.message && Notification.error({ title: '失败', message: response.data.message })
+    // } else {
+    //   response.config.method === 'post' && response.data.message && Notification.success({ title: '成功', message: response.data.message })
+    // }
+    if (response.data && response.data.code === 482) {
+      Notification.error({ title: '警告', message: response.data.message })
+      router.push({ path: '/login' })
+      return false
     }
     return response.data
   }, error => {
