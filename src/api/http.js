@@ -23,7 +23,8 @@ instance
   .interceptors
   .request
   .use(config => {
-    const token = store.state.token
+    // const token = store.state.token
+    const token = `${store.state.token}`
     token && (config.headers.common.Authorization = token)
     if (config.method === 'post' && config.data) {
       if (config.headers['Content-Type'] === 'multipart/form-data') {
@@ -46,7 +47,7 @@ instance
     } else {
       response.config.method === 'post' && response.data.message && Notification.success({ title: '成功', message: response.data.message })
     }
-    return response
+    return response.data
   }, error => {
     const { response } = error
     response

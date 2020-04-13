@@ -25,11 +25,18 @@ const plugin = store => {
 export default new Vuex.Store({
   state: {
     collapse: false,
-    token: 'abcd'
+    token: localStorage.getItem('token') || ''
   },
   modules: {
     global
   },
+  mutations: {
+    login (state, item) {
+      state.token = item
+      localStorage.setItem('token', state.token)
+    }
+  },
+
   actions: {
     toggle ({
       state
@@ -45,7 +52,6 @@ export default new Vuex.Store({
         ? !state.loading
         : payload
     },
-
     updateUserInfo: ({
       commit, state
     }, payload) => {

@@ -23,8 +23,9 @@
 <script>
 // import * as api from '@/api'
 import * as api from '../api/index'
+
 // const response = await api.auth.sso(payload)
-console.log(api)
+// console.log(api)
 export default {
   data () {
     return {
@@ -44,14 +45,21 @@ export default {
 
   methods: {
     login () {
-      this.$refs.ruleForm.validate((valid) => {
+      this.$refs.ruleForm.validate(async (valid) => {
         if (valid) {
           const data = {
             userName: this.ruleForm.userName,
             password: this.ruleForm.password
           }
-          const ret = api.auth.login(data)
+          const ret = await api.auth.login(data)
           console.log(ret)
+          if (ret.code === 1) {
+            this.$message({
+              message: '登录成功',
+              type: 'success'
+            })
+            this.$router.push({ path: '/list', query: { token: ret.data.token } })
+          }
         } else {
           console.log('error submit!!')
           return false

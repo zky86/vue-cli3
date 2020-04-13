@@ -6,7 +6,7 @@ const auth = {
 }
 
 const menu = {
-  getList: params => createAPI('/sys/menu/list', 'get', params)
+  getList: params => createAPI('/list', 'post', params)
 }
 
 const user = {
