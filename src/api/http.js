@@ -7,7 +7,7 @@ import router from '../router'
 const instance = axios.create({ baseURL: '' })
 
 const errorHandle = (status, message) => {
-  console.log(status)
+  // console.log(status)
   switch (status) {
     case 401:
       store.dispatch('logout')

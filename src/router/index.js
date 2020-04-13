@@ -6,7 +6,7 @@ NProgress.configure({
   showSpinner: false
 })
 Vue.use(VueRouter)
-// routes.find(x => x.path === '/').redirect = '/login'
+routes.find(x => x.path === '/').redirect = '/login' // 跳转登录
 const router = new VueRouter({
   // routes: process.env.NODE_ENV === 'production' ? routes.filter(x => x.children === undefined) : routes
   routes: routes

@@ -2,24 +2,18 @@
   <div>
     <div class="p1th">
       <h3>用户列表：</h3>
-      <div class="list">
-        123
-      </div>
+      <div class="list">123</div>
     </div>
   </div>
-
 </template>
 
 <script>
 // import * as api from '@/api'
-import * as api from '../api/index'
-// const response = await api.auth.sso(payload)
-// console.log(api)
+import * as api from '@/api'
 export default {
   data () {
     return {
-      ruleForm: {
-      }
+      ruleForm: {}
     }
   },
   created () {},
@@ -32,9 +26,7 @@ export default {
 
   methods: {
     async getList () {
-      const data = {
-
-      }
+      const data = {}
       const ret = await api.menu.getList(data)
       // console.log(ret)
     }
@@ -43,7 +35,7 @@ export default {
 </script>
 
 <style lang="scss">
-.p1th{
+.p1th {
   width: 90%;
   margin: 0 auto;
   padding: 20px 0;
