@@ -10,7 +10,8 @@ const menu = {
 }
 
 const user = {
-  getList: params => createAPI('/user', 'post', params)
+  getList: params => createAPI('/user', 'post', params),
+  getArticle: params => createAPI('/article', 'get', params)
 }
 
 const role = {

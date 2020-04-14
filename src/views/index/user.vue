@@ -52,7 +52,7 @@ export default {
     },
     // 切换一页翻多少条数据
     handleSizeChange (val) {
-      this.limit = val
+      this.pageSize = val
       this.search()
     },
     handleSearch () {
@@ -75,7 +75,7 @@ export default {
     },
     check (key, item) {
       console.log(item)
-      const data = {}
+      this.$router.push(`/list/${item ? item.id : 0}/article`)
     }
   }
 }
