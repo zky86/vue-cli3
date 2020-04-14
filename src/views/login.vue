@@ -50,7 +50,7 @@ export default {
             userName: this.ruleForm.userName,
             password: this.ruleForm.password
           }
-          const ret = await api.auth.login(data);
+          const ret = await api.auth.login(data)
           if (ret.code === 1) {
             this.$message({
               message: '登录成功',
@@ -63,7 +63,7 @@ export default {
           }
         } else {
           console.log('error submit!!')
-          return false;
+          return false
         }
       })
     }
