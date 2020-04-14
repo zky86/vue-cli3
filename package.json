@@ -60,14 +60,11 @@
     }
   },
   "lint-staged": {
-    "linters": {
-      "*.{js,vue}": [
-        "eslint --ext .js,.vue src",
-        "git add"
-      ]
-    },
+    "*.{js,vue}": [
+      "eslint --ext .js,.vue src",
+      "git add"
+    ],
     "ignore": [
-      "package.json",
       "**/dist/**/*.js"
     ]
   }
