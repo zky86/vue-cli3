@@ -62,7 +62,7 @@
   "lint-staged": {
     "linters": {
       "*.{js,vue}": [
-        "vue-cli-service lint",
+        "eslint --ext .js,.vue src",
         "git add"
       ]
     },
