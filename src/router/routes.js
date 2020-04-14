@@ -1,7 +1,8 @@
 const index = () => import(/* webpackChunkName: "index" */ '@/views/index')
-const indexArticle = () => import(/* webpackChunkName: "indexArticle" */ '@/views/index/article')
-const indexList = () => import(/* webpackChunkName: "indexList" */ '@/views/index/list')
-const indexTabNav = () => import(/* webpackChunkName: "indexTabNav" */ '@/views/index/tabNav')
+const indexListId = () => import(/* webpackChunkName: "indexListId" */ '@/views/index/list/_id')
+const indexListIdArticle = () => import(/* webpackChunkName: "indexListIdArticle" */ '@/views/index/list/_id/article')
+const indexListIdComment = () => import(/* webpackChunkName: "indexListIdComment" */ '@/views/index/list/_id/comment')
+const indexUser = () => import(/* webpackChunkName: "indexUser" */ '@/views/index/user')
 const loginstate = () => import(/* webpackChunkName: "loginstate" */ '@/views/login_state')
 const login = () => import(/* webpackChunkName: "login" */ '@/views/login')
 export default [
@@ -21,19 +22,26 @@ export default [
     component: index,
     children: [
       {
-        name: 'index-article',
-        path: 'article',
-        component: indexArticle
+        name: 'index-user',
+        path: 'user',
+        component: indexUser
       },
       {
-        name: 'index-list',
-        path: 'list',
-        component: indexList
-      },
-      {
-        name: 'index-tabNav',
-        path: 'tabNav',
-        component: indexTabNav
+        name: 'index-list-id',
+        path: 'list/:id?',
+        component: indexListId,
+        children: [
+          {
+            name: 'index-list-id-article',
+            path: 'article',
+            component: indexListIdArticle
+          },
+          {
+            name: 'index-list-id-comment',
+            path: 'comment',
+            component: indexListIdComment
+          }
+        ]
       }
     ]
   }

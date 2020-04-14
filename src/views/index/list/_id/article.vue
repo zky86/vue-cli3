@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="p1th">
-      <h3>tab切换：</h3>
-      <div class="list">11</div>
+    <div class="p1th mt20">
+      <h3>文章列表</h3>
+      <div class="list ">111</div>
     </div>
   </div>
 </template>
@@ -24,7 +24,6 @@ export default {
 
   methods: {
     getList () {
-
     }
   }
 }
@@ -32,8 +31,6 @@ export default {
 
 <style lang="scss">
 .p1th {
-  // width: 90%;
-  // margin: 0 auto;
-  // padding: 20px 0;
+
 }
 </style>

@@ -1,8 +1,7 @@
 <template>
   <div>
-    <div class="p1th">
-      <h3>文章列表111</h3>
-      <div class="list">123</div>
+    <div class="p1th mt20">
+      <h3>用户列表：</h3>
     </div>
   </div>
 </template>
@@ -19,11 +18,17 @@ export default {
   created () {},
 
   mounted () {
+    // console.log(this.$route.query.token)
+    // this.$store.commit('login', this.$route.query.token)
 
+    this.getList()
   },
 
   methods: {
-    getList () {
+    async getList () {
+      // const data = {}
+      // const ret = await api.menu.getList(data)
+      // console.log(ret)
     }
   }
 }

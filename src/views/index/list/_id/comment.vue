@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="p1th">
-      <h3>用户列表：</h3>
-      <div class="list">123</div>
+    <div class="p1th mt20">
+      <h3>评论列表：</h3>
+      <div class="list ">222</div>
     </div>
   </div>
 </template>
@@ -28,7 +28,6 @@ export default {
   methods: {
     async getList () {
       const data = {}
-      console.log(1)
       const ret = await api.menu.getList(data)
       // console.log(ret)
     }

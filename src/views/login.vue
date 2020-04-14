@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="login-page">
     <div class="p1th">
       <el-form
         :model="ruleForm"
@@ -72,9 +72,14 @@ export default {
 </script>
 
 <style lang="scss">
-.p1th {
-  .btn {
-    text-align: center;
+.login-page {
+  .p1th {
+    width: 50%;
+    margin: 0 auto;
+    padding-top: 150px;
+    .btn {
+      text-align: center;
+    }
   }
 }
 </style>

@@ -14,7 +14,7 @@ import 'nprogress/nprogress.css'
 export default {
   beforeRouteEnter (to, from, next) {
     store.commit('login', to.query.token)
-    next({ name: 'index-tabNav' })
+    next({ name: 'index-user' })
     NProgress.done()
   },
   data () {
