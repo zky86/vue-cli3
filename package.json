@@ -60,10 +60,12 @@
     }
   },
   "lint-staged": {
-    "*.{js,vue}": [
-      "eslint --fix",
-      "git add"
-    ],
+    "linters": {
+      "*.{js,vue}": [
+        "vue-cli-service lint",
+        "git add"
+      ]
+    },
     "ignore": [
       "**/dist/**/*.js"
     ]
