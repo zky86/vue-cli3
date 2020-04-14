@@ -55,7 +55,7 @@ export default {
             this.$message({
               message: '登录成功',
               type: 'success'
-            })
+            });
             this.$router.push({
               name: 'login_state',
               query: { token: ret.data.token }
