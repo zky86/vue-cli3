@@ -11,11 +11,20 @@ const menu = {
 
 const user = {
   getList: params => createAPI('/user/query', 'get', params),
-  getArticle: params => createAPI('/article', 'get', params)
+  getArticle: params => createAPI('/article', 'get', params),
+  delUser: params => createAPI('/user/destroy', 'get', params)
 }
 
 const role = {
   getList: params => createAPI('/sys/role/list', 'get', params)
 }
 
-export { auth, menu, user, role }
+const common = {
+  upload: params => createAPI('/common/upload', 'post', params, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  })
+}
+
+export { auth, menu, user, role, common }

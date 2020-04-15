@@ -1,12 +1,23 @@
 <template>
   <div v-loading="loading" element-loading-text="玩命加载中...">
     <div class="p1th mt20">
-      <h3>用户列表：</h3>
+      <h3 class="mb20">用户列表：</h3>
+      <el-form :inline="true" >
+          <el-form-item>
+            <el-input v-model="filters.username" placeholder="请输入姓名"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" class=""  @click="handleSearch" >搜索</el-button>
+            <el-button type="primary" class=""  @click="add" >新增用户</el-button>
+          </el-form-item>
+      </el-form>
+
       <el-table :data="tableData" class="mt20">
         <el-table-column prop="username" sortable label="姓名" width="180"></el-table-column>
-        <el-table-column align="center" sortable label="操作">
+        <el-table-column align="center" label="操作">
           <template slot-scope="scope">
-            <div @click="check(scope.$index,scope.row)">查看</div>
+            <el-button @click="check(scope.$index,scope.row)" size="small">查看</el-button>
+            <el-button type="primary"  @click="del(scope.$index,scope.row)" size="small">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -35,7 +46,10 @@ export default {
       tableData: [],
       total: 0,
       pageIndex: 1,
-      pageSize: 10
+      pageSize: 10,
+      filters: {
+        username: null
+      }
     }
   },
   created () {},
@@ -62,6 +76,7 @@ export default {
     },
     async search () {
       const data = {
+        username: this.filters.username,
         pageSize: this.pageSize,
         pageIndex: this.pageIndex
       }
@@ -75,8 +90,24 @@ export default {
       }
     },
     check (key, item) {
-      console.log(item)
       this.$router.push(`/list/${item ? item.id : 0}/article`)
+    },
+    async del (key, item) {
+      const data = {
+        _id: item._id
+      }
+      this.loading = true
+      const ret = await api.user.delUser(data)
+      if (ret.code === 1) {
+        this.$message({
+          message: '删除成功',
+          type: 'success'
+        })
+        this.handleSearch()
+      }
+    },
+    add () {
+
     }
   }
 }
