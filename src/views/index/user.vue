@@ -2,22 +2,23 @@
   <div v-loading="loading" element-loading-text="玩命加载中...">
     <div class="p1th mt20">
       <h3 class="mb20">用户列表：</h3>
-      <el-form :inline="true" >
-          <el-form-item>
-            <el-input v-model="filters.username" placeholder="请输入姓名"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" class=""  @click="handleSearch" >搜索</el-button>
-            <el-button type="primary" class=""  @click="add" >新增用户</el-button>
-          </el-form-item>
+      <el-form :inline="true">
+        <el-form-item>
+          <el-input v-model="filters.username" placeholder="请输入姓名"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" class @click="handleSearch">搜索</el-button>
+          <el-button type="primary" class @click="add">新增用户</el-button>
+        </el-form-item>
       </el-form>
 
       <el-table :data="tableData" class="mt20">
-        <el-table-column prop="username" sortable label="姓名" width="180"></el-table-column>
+        <el-table-column prop="username" sortable label="姓名" width="200"></el-table-column>
+        <el-table-column prop="phone" sortable label="电话" width="200"></el-table-column>
         <el-table-column align="center" label="操作">
           <template slot-scope="scope">
             <el-button @click="check(scope.$index,scope.row)" size="small">查看</el-button>
-            <el-button type="primary"  @click="del(scope.$index,scope.row)" size="small">删除</el-button>
+            <el-button type="primary" @click="del(scope.$index,scope.row)" size="small">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -33,6 +34,30 @@
         :total="total"
       ></el-pagination>
     </el-col>
+
+    <el-dialog title="提示" :visible.sync="dialogVisible" width="50%">
+      <el-form
+        :rules="rules"
+        ref="ruleForm"
+        :model="addFilters"
+        label-width="80px"
+        style="width:93%"
+      >
+        <el-form-item label="用户名" prop="username">
+          <el-input v-model="addFilters.username"></el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="password">
+          <el-input v-model="addFilters.password"></el-input>
+        </el-form-item>
+        <el-form-item label="电话" prop="phone">
+          <el-input v-model="addFilters.phone"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="confirm('ruleForm')">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -43,12 +68,23 @@ export default {
   data () {
     return {
       loading: false,
+      dialogVisible: false,
       tableData: [],
       total: 0,
       pageIndex: 1,
       pageSize: 10,
       filters: {
         username: null
+      },
+      addFilters: {
+        username: '',
+        password: '',
+        phone: ''
+      },
+      rules: {
+        username: [{ required: true, message: '请输入', trigger: 'blur' }],
+        password: [],
+        phone: []
       }
     }
   },
@@ -82,7 +118,6 @@ export default {
       }
       this.loading = true
       const ret = await api.user.getList(data)
-      console.log(ret)
       this.loading = false
       if (ret.code === 1) {
         this.tableData = ret.data.list
@@ -98,6 +133,7 @@ export default {
       }
       this.loading = true
       const ret = await api.user.delUser(data)
+      this.loading = false
       if (ret.code === 1) {
         this.$message({
           message: '删除成功',
@@ -106,8 +142,23 @@ export default {
         this.handleSearch()
       }
     },
-    add () {
+    async add () {
+      this.dialogVisible = true
+    },
+    async confirm (formName) {
+      this.loading = true
+      const ret = await api.user.addUser(this.addFilters)
+      if (ret.code === 1) {
+        this.$message({
+          message: '添加成功',
+          type: 'success'
+        })
 
+        this.$refs.ruleForm.resetFields()
+        this.loading = false
+        this.dialogVisible = false
+        this.handleSearch()
+      }
     }
   }
 }
