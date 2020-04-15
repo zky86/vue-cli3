@@ -3,7 +3,7 @@
     <div class="p1th mt20">
       <h3>用户列表：</h3>
       <el-table :data="tableData" class="mt20">
-        <el-table-column prop="name" sortable label="姓名" width="180"></el-table-column>
+        <el-table-column prop="username" sortable label="姓名" width="180"></el-table-column>
         <el-table-column align="center" sortable label="操作">
           <template slot-scope="scope">
             <div @click="check(scope.$index,scope.row)">查看</div>
@@ -34,8 +34,8 @@ export default {
       loading: false,
       tableData: [],
       total: 0,
-      page: 1,
-      pageSize: 5
+      pageIndex: 1,
+      pageSize: 10
     }
   },
   created () {},
@@ -47,7 +47,7 @@ export default {
   methods: {
     // 点击页码操作
     handleCurrentChange (val) {
-      this.page = val
+      this.pageIndex = val
       this.search()
     },
     // 切换一页翻多少条数据
@@ -57,16 +57,17 @@ export default {
     },
     handleSearch () {
       this.total = 0
-      this.page = 1
+      this.pageIndex = 1
       this.search()
     },
     async search () {
       const data = {
         pageSize: this.pageSize,
-        page: this.page
+        pageIndex: this.pageIndex
       }
       this.loading = true
       const ret = await api.user.getList(data)
+      console.log(ret)
       this.loading = false
       if (ret.code === 1) {
         this.tableData = ret.data.list
