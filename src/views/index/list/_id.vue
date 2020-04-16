@@ -1,6 +1,10 @@
 <template>
   <div>
-    <div class="p1th">
+    <div class="p1th mt20">
+      <router-link :to="{ name:'index-user'}"><el-button type="primary" >返回用户列表</el-button></router-link>
+
+      <div class="mt20">当然用户：{{this.$store.state.global.current_info.username}}</div>
+
       <el-menu mode="horizontal" :default-active="$route.name">
         <template v-for="(item, index) in navs">
           <el-menu-item :key="index" :index="item.name" @click.native="onClick(item)">{{item.label}}</el-menu-item>

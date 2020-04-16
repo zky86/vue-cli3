@@ -37,6 +37,7 @@ export default {
   created () {},
 
   mounted () {
+    console.log(this.$store.state.global)
     this.handleSearch()
   },
   beforeRouteEnter (to, from, next) {
@@ -44,7 +45,7 @@ export default {
     // const creatable = +to.params.id === 0
     // console.log(creatable)
     next(vm => {
-      console.log(vm)
+      // console.log(vm)
     })
   },
   methods: {

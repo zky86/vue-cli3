@@ -1,6 +1,6 @@
 import * as types from '../mutation-types'
 const state = {
-  game_info: ''
+  current_info: ''
 }
 
 const getters = {}
@@ -8,8 +8,8 @@ const getters = {}
 const actions = {}
 
 const mutations = {
-  [types.RECORD_GLOBAL_GAME_INFO] (state, gameInfo) {
-    state.game_info = gameInfo
+  [types.RECORD_GLOBAL_CURRENT_INFO] (state, currentnfo) {
+    state.current_info = currentnfo
   }
 }
 

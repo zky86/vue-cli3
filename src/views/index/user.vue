@@ -18,7 +18,20 @@
         <el-table-column align="center" label="操作">
           <template slot-scope="scope">
             <el-button @click="check(scope.$index,scope.row)" size="small">查看</el-button>
-            <el-button type="primary" @click="del(scope.$index,scope.row)" size="small">删除</el-button>
+            <el-button @click="edit(scope.$index,scope.row)" size="small">修改</el-button>
+            <el-popover
+              placement="top"
+              :ref="`pop-${scope.$index}`"
+              width="160"
+            >
+              <p>确定删除吗？</p>
+              <div style="text-align: right; margin: 0">
+                <el-button size="mini" type="text" @click="scope._self.$refs[`pop-${scope.$index}`].doClose()">取消</el-button>
+                <el-button type="primary" size="mini" @click="del(scope)">确定</el-button>
+              </div>
+              <el-button slot="reference" type="primary" style="margin-left:15px" size="small">删除</el-button>
+            </el-popover>
+            <!-- <el-button type="primary" @click="del(scope.$index,scope.row)" size="small">删除</el-button> -->
           </template>
         </el-table-column>
       </el-table>
@@ -63,8 +76,11 @@
 
 <script>
 // import * as api from '@/api'
+import * as types from '@/store/mutation-types'
 import * as api from '@/api'
+import commonMixin from '@/mixin/commonMixin'
 export default {
+  mixins: [commonMixin],
   data () {
     return {
       loading: false,
@@ -125,11 +141,20 @@ export default {
       }
     },
     check (key, item) {
-      this.$router.push(`/list/${item ? item.id : 0}/article`)
+      this.$store.commit(types.RECORD_GLOBAL_CURRENT_INFO, item)
+      this.$router.push(`/list/${item ? item._id : 0}/article`)
     },
-    async del (key, item) {
+
+    edit (key, item) {
+      this.dialogVisible = true
+      const arr = JSON.parse(JSON.stringify(item))
+      this.addFilters = arr
+    },
+
+    async del (scope) {
+      console.log(scope)
       const data = {
-        _id: item._id
+        _id: scope.row._id
       }
       this.loading = true
       const ret = await api.user.delUser(data)
@@ -139,26 +164,33 @@ export default {
           message: '删除成功',
           type: 'success'
         })
+        scope._self.$refs[`pop-${scope.$index}`].doClose()
         this.handleSearch()
       }
     },
     async add () {
       this.dialogVisible = true
     },
-    async confirm (formName) {
-      this.loading = true
-      const ret = await api.user.addUser(this.addFilters)
-      if (ret.code === 1) {
-        this.$message({
-          message: '添加成功',
-          type: 'success'
-        })
-
-        this.$refs.ruleForm.resetFields()
-        this.loading = false
-        this.dialogVisible = false
-        this.handleSearch()
-      }
+    confirm (formName) {
+      this.$refs.ruleForm.validate(async (valid) => {
+        if (valid) {
+          this.loading = true
+          const ret = await api.user.addUser(this.addFilters)
+          if (ret.code === 1) {
+            this.$message({
+              message: '添加成功',
+              type: 'success'
+            })
+            this.$refs.ruleForm.resetFields()
+            this.loading = false
+            this.dialogVisible = false
+            this.handleSearch()
+          }
+        } else {
+          this.$message.error('请按提示补充完整信息...')
+          return false
+        }
+      })
     }
   }
 }
