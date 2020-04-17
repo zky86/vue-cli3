@@ -1,40 +1,41 @@
 /* eslint-disable */
-export function datetime(date, format = 'yyyy-MM-dd HH:mm:ss') {
-  if (!date) {
-    return '';
+export function formatTime(value) {
+  var time = value[0];
+  // 如果没有时间跳出
+  if(!time){
+    return;
   }
-  if (typeof date === 'string') {
-    date =
-      date.indexOf(',') > 0 ?
-      new Date(date) :
-      +date.replace(/\/Date\((\d+)\)\//, '$1');
+  if (arguments.length === 0) {
+    return null
   }
-  typeof date === 'number' && (date = new Date(date));
-  let obj = {
-    // yyyy-MM-dd 第q季度 www HH:mm:ss:SSS
+  const format = value[1] || '{y-{m}-{d} {h}:{i}:{s}'
+  let date
+  if (typeof time === 'object') {
+    date = time
+  } else {
+    if (('' + time).length === 10) time = parseInt(time) * 1000
+    date = new Date(time)
+  }
+
+  const formatObj = {
     y: date.getFullYear(),
-    M: date.getMonth() + 1,
+    m: date.getMonth() + 1,
     d: date.getDate(),
-    q: Math.floor((date.getMonth() + 3) / 3),
-    w: date.getDay(),
-    H: date.getHours(),
-    h: date.getHours() % 12 === 0 ? 12 : date.getHours() % 12,
-    m: date.getMinutes(),
+    h: date.getHours(),
+    i: date.getMinutes(),
     s: date.getSeconds(),
-    S: date.getMilliseconds()
-  };
-  let _week = ['日', '一', '二', '三', '四', '五', '六'];
-  for (let i in obj) {
-    format = format.replace(new RegExp(i + '+', 'g'), m => {
-      let val = obj[i] + '';
-      if (i === 'w') return (m.length > 2 ? '星期' : '周') + _week[val];
-      for (let j = 0, len = val.length; j < m.length - len; j++) {
-        val = '0' + val;
-      }
-      return m.length === 1 ? val : val.substring(val.length - m.length);
-    });
+    a: date.getDay()
   }
-  return format;
+  const time_str = format.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
+    let value = formatObj[key]
+    // Note: getDay() returns 0 on Sunday
+    if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value ] }
+    if (result.length > 0 && value < 10) {
+      value = '0' + value
+    }
+    return value || 0
+  })
+  return time_str
 }
 
 export function timeInterval(val, text = '') {

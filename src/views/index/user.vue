@@ -15,6 +15,11 @@
       <el-table :data="tableData" class="mt20">
         <el-table-column prop="username" sortable label="姓名" width="200"></el-table-column>
         <el-table-column prop="phone" sortable label="电话" width="200"></el-table-column>
+        <el-table-column prop="timestamp" sortable label="时间" width="200">
+          <template slot-scope="scope">
+            {{[scope.row.timestamp, '{y}-{m}-{d}'] | formatTime}}
+          </template>
+        </el-table-column>
         <el-table-column align="center" label="操作">
           <template slot-scope="scope">
             <el-button @click="check(scope.$index,scope.row)" size="small">查看</el-button>
@@ -65,6 +70,14 @@
         <el-form-item label="电话" prop="phone">
           <el-input v-model="addFilters.phone"></el-input>
         </el-form-item>
+        <el-form-item label="时间" prop="phone">
+          <el-date-picker
+            v-model="addFilters.timestamp"
+            type="date"
+            value-format="timestamp"
+            placeholder="选择日期">
+          </el-date-picker>
+        </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -95,7 +108,8 @@ export default {
       addFilters: {
         username: '',
         password: '',
-        phone: ''
+        phone: '',
+        timestamp: ''
       },
       rules: {
         username: [{ required: true, message: '请输入', trigger: 'blur' }],
