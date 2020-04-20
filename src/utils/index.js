@@ -1,14 +1,14 @@
 import cloneDeep from 'lodash/cloneDeep'
 
-export {cloneDeep}
+export { cloneDeep }
 
 export const objectToFormdata = (obj, form, namespace) => {
-  let fd = form || new FormData()
+  const fd = form || new FormData()
   let formKey
 
-  for (let property in obj) {
+  for (const property in obj) {
     if (obj.hasOwnProperty(property)) {
-      let key = Array.isArray(obj)
+      const key = Array.isArray(obj)
         ? `[${property}]`
         : `.${property}`
       if (namespace) {
@@ -28,4 +28,32 @@ export const objectToFormdata = (obj, form, namespace) => {
   }
 
   return fd
+}
+
+export const pickerOptions = {
+  shortcuts: [{
+    text: '最近一周',
+    onClick (picker) {
+      const end = new Date()
+      const start = new Date()
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+      picker.$emit('pick', [start, end])
+    }
+  }, {
+    text: '最近一个月',
+    onClick (picker) {
+      const end = new Date()
+      const start = new Date()
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+      picker.$emit('pick', [start, end])
+    }
+  }, {
+    text: '最近三个月',
+    onClick (picker) {
+      const end = new Date()
+      const start = new Date()
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+      picker.$emit('pick', [start, end])
+    }
+  }]
 }

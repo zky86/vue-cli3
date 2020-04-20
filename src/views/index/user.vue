@@ -7,6 +7,17 @@
           <el-input v-model="filters.username" placeholder="请输入姓名"></el-input>
         </el-form-item>
         <el-form-item>
+          <el-date-picker
+            v-model="filters.date"
+             type="daterange"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            value-format="timestamp"
+            :picker-options="$utils.pickerOptions"
+          >
+        </el-date-picker>
+        </el-form-item>
+        <el-form-item>
           <el-button type="primary" class @click="handleSearch">搜索</el-button>
           <el-button type="primary" class @click="add">新增用户</el-button>
         </el-form-item>
@@ -103,7 +114,8 @@ export default {
       pageIndex: 1,
       pageSize: 10,
       filters: {
-        username: null
+        username: null,
+        date: []
       },
       addFilters: {
         username: '',
@@ -143,6 +155,7 @@ export default {
     async search () {
       const data = {
         username: this.filters.username,
+        date: this.filters.date,
         pageSize: this.pageSize,
         pageIndex: this.pageIndex
       }
