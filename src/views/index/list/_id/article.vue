@@ -1,12 +1,19 @@
 <template>
-  <div v-loading="loading" element-loading-text="玩命加载中..." >
-    <div class="p1th mt20" >
-      <h3>文章列表</h3>
-      <el-table :data="tableData" class="mt20">
+  <div v-loading="loading" element-loading-text="玩命加载中...">
+    <div class="p1th mt20">
+      <el-form :inline="true">
+        <el-form-item>
+          <el-button type="primary" size="small" @click="addFn">新增文章</el-button>
+        </el-form-item>
+      </el-form>
+
+      <el-table :data="tableData">
         <el-table-column prop="title" sortable label="标题"></el-table-column>
+        <el-table-column prop="summary" sortable label="内容"></el-table-column>
         <el-table-column prop="timer" sortable label="发布时间"></el-table-column>
       </el-table>
     </div>
+
     <!--工具条-->
     <el-col :span="24" class="mt20">
       <el-pagination
@@ -18,40 +25,67 @@
         :total="total"
       ></el-pagination>
     </el-col>
+
+    <el-dialog title="提示" :visible.sync="dialogVisible" width="50%">
+      <el-form :rules="rules" ref="form" :model="form" label-width="80px" style="width:93%">
+        <el-form-item label="标题" prop="title">
+          <el-input v-model="form.title"></el-input>
+        </el-form-item>
+        <el-form-item label="内容" prop="summary">
+          <el-input type="textarea" :rows="6" v-model="form.summary"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="confirm('ruleForm')">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-// import * as api from '@/api'
 import * as api from '@/api'
 export default {
   data () {
     return {
+      dialogVisible: false,
       loading: false,
       tableData: [],
       total: 0,
-      page: 1,
-      pageSize: 5
+      pageIndex: 1,
+      pageSize: 10,
+      form: {
+        title: '',
+        summary: '',
+        user_id: '',
+        type: this.$route.query.type || 'article'
+      },
+      rules: {
+        title: [{ required: true, message: '请输入', trigger: 'blur' }],
+        summary: []
+      }
     }
   },
   created () {},
 
   mounted () {
-    console.log(this.$store.state.global)
+    // console.log(this.$store.state.global)
     this.handleSearch()
   },
   beforeRouteEnter (to, from, next) {
-    // console.log(to.params.id)
     // const creatable = +to.params.id === 0
     // console.log(creatable)
+    // console.log(vm)
     next(vm => {
-      // console.log(vm)
+      vm.$nextTick(() => {
+        vm.form.user_id = to.params.id
+      })
     })
   },
   methods: {
     // 点击页码操作
     handleCurrentChange (val) {
-      this.page = val
+      this.pageIndex = val
       this.search()
     },
     // 切换一页翻多少条数据
@@ -61,21 +95,47 @@ export default {
     },
     handleSearch () {
       this.total = 0
-      this.page = 1
+      this.pageIndex = 1
       this.search()
     },
     async search () {
       const data = {
         pageSize: this.pageSize,
-        page: this.page
+        pageIndex: this.pageIndex
       }
       this.loading = true
-      const ret = await api.user.getArticle(data)
+      const ret = await api.article.getList(data)
       this.loading = false
       if (ret.code === 1) {
         this.tableData = ret.data.list
         this.total = ret.data.total
       }
+    },
+
+    confirm (formName) {
+      this.$refs.form.validate(async valid => {
+        if (valid) {
+          this.loading = true
+          const ret = await api.article.add(this.form)
+          if (ret.code === 1) {
+            this.$message({
+              message: '添加成功',
+              type: 'success'
+            })
+            this.$refs.form.resetFields()
+            this.loading = false
+            this.dialogVisible = false
+            this.handleSearch()
+          }
+        } else {
+          this.$message.error('请按提示补充完整信息...')
+          return false
+        }
+      })
+    },
+
+    addFn () {
+      this.dialogVisible = true
     }
   }
 }
@@ -83,6 +143,5 @@ export default {
 
 <style lang="scss">
 .p1th {
-
 }
 </style>

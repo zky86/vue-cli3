@@ -1,28 +1,37 @@
 <template>
   <div>
     <div class="p1th mt20">
-      <router-link :to="{ name:'index-user'}"><el-button type="primary" >返回用户列表</el-button></router-link>
 
-      <div class="mt20">当然用户：{{this.$store.state.global.current_info.username}}</div>
+      <el-form :inline="true">
+        <el-form-item>
+          当前用户：<span class="fb mr10">{{this.$store.state.global.current_info.username}}</span>
+        </el-form-item>
+        <el-form-item>
+          <router-link :to="{ name:'index-user'}"><el-button type="primary" >返回用户列表</el-button></router-link>
+        </el-form-item>
+      </el-form>
 
       <el-menu mode="horizontal" :default-active="$route.name">
         <template v-for="(item, index) in navs">
           <el-menu-item :key="index" :index="item.name" @click.native="onClick(item)">{{item.label}}</el-menu-item>
         </template>
       </el-menu>
+
       <keep-alive>
         <router-view  v-if="keepAlive()"></router-view>
       </keep-alive>
       <router-view v-if="!keepAlive()"></router-view>
+
     </div>
   </div>
 </template>
 
 <script>
-// import * as api from '@/api'
+
 export default {
   data () {
     return {
+      loading: false,
       navs: [
         {
           label: '文章列表',
@@ -33,6 +42,7 @@ export default {
           name: 'index-list-id-comment'
         }
       ]
+
     }
   },
 
@@ -53,7 +63,14 @@ export default {
 
   methods: {
     onClick (item) {
-      this.$router.push({ name: item.name, params: item.params })
+      console.log(item)
+      let type
+      if (item.name === 'index-list-id-article') {
+        type = 'article'
+      } else {
+        type = 'comment'
+      }
+      this.$router.push({ name: item.name, params: item.params, query: { type: type } })
     },
     findNav (navs, name) {
       for (const nav of navs) {

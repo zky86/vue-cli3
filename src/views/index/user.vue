@@ -9,17 +9,17 @@
         <el-form-item>
           <el-date-picker
             v-model="filters.date"
-             type="daterange"
+            type="daterange"
             start-placeholder="开始日期"
             end-placeholder="结束日期"
             value-format="timestamp"
             :picker-options="$utils.pickerOptions"
           >
-        </el-date-picker>
+          </el-date-picker>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" class @click="handleSearch">搜索</el-button>
-          <el-button type="primary" class @click="add">新增用户</el-button>
+          <el-button type="primary" class @click="addFn">新增用户</el-button>
         </el-form-item>
       </el-form>
 
@@ -195,7 +195,7 @@ export default {
         this.handleSearch()
       }
     },
-    async add () {
+    async addFn () {
       this.dialogVisible = true
     },
     confirm (formName) {

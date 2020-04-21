@@ -2,7 +2,6 @@ import { createAPI } from './http'
 
 const auth = {
   login: params => createAPI('/login', 'post', params)
-
 }
 
 const menu = {
@@ -11,9 +10,13 @@ const menu = {
 
 const user = {
   getList: params => createAPI('/user/query', 'post', params),
-  getArticle: params => createAPI('/article', 'get', params),
-  delUser: params => createAPI('/user/destroy', 'get', params),
-  addUser: params => createAPI('/user/update', 'post', params)
+  addUser: params => createAPI('/user/update', 'post', params),
+  delUser: params => createAPI('/user/destroy', 'get', params)
+}
+
+const article = {
+  getList: params => createAPI('/article/query', 'post', params),
+  add: params => createAPI('/article/update', 'post', params)
 }
 
 const role = {
@@ -28,4 +31,4 @@ const common = {
   })
 }
 
-export { auth, menu, user, role, common }
+export { auth, menu, user, article, role, common }
