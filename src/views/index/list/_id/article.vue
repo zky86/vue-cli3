@@ -10,7 +10,11 @@
       <el-table :data="tableData">
         <el-table-column prop="title" sortable label="标题"></el-table-column>
         <el-table-column prop="summary" sortable label="内容"></el-table-column>
-        <el-table-column prop="timer" sortable label="发布时间"></el-table-column>
+        <el-table-column prop="timer" sortable label="发布时间">
+          <template slot-scope="scope">
+            {{[scope.row.updateTime, '{y}-{m}-{d}'] | formatTime}}
+          </template>
+        </el-table-column>
       </el-table>
     </div>
 
@@ -70,7 +74,7 @@ export default {
 
   mounted () {
     // console.log(this.$store.state.global)
-    this.handleSearch()
+
   },
   beforeRouteEnter (to, from, next) {
     // const creatable = +to.params.id === 0
@@ -79,6 +83,7 @@ export default {
     next(vm => {
       vm.$nextTick(() => {
         vm.form.user_id = to.params.id
+        vm.handleSearch()
       })
     })
   },
@@ -101,7 +106,8 @@ export default {
     async search () {
       const data = {
         pageSize: this.pageSize,
-        pageIndex: this.pageIndex
+        pageIndex: this.pageIndex,
+        user_id: this.form.user_id
       }
       this.loading = true
       const ret = await api.article.getList(data)

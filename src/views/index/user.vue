@@ -26,9 +26,14 @@
       <el-table :data="tableData" class="mt20">
         <el-table-column prop="username" sortable label="姓名" width="200"></el-table-column>
         <el-table-column prop="phone" sortable label="电话" width="200"></el-table-column>
-        <el-table-column prop="timestamp" sortable label="时间" width="200">
+        <el-table-column prop="timestamp" sortable label="预定时间" width="200">
           <template slot-scope="scope">
             {{[scope.row.timestamp, '{y}-{m}-{d}'] | formatTime}}
+          </template>
+        </el-table-column>
+        <el-table-column sortable label="发布时间">
+          <template slot-scope="scope">
+            {{[scope.row.updateTime, '{y}-{m}-{d}'] | formatTime}}
           </template>
         </el-table-column>
         <el-table-column align="center" label="操作">
