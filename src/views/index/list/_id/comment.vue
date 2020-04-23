@@ -10,7 +10,7 @@
       <el-table :data="tableData">
         <el-table-column prop="title" sortable label="标题"></el-table-column>
         <el-table-column prop="summary" sortable label="内容"></el-table-column>
-        <el-table-column prop="timer" sortable label="发布时间">
+        <el-table-column prop="updateTime" sortable label="发布时间">
           <template slot-scope="scope">
             {{[scope.row.updateTime, '{y}-{m}-{d}'] | formatTime}}
           </template>

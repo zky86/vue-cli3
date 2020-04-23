@@ -31,7 +31,7 @@
             {{[scope.row.timestamp, '{y}-{m}-{d}'] | formatTime}}
           </template>
         </el-table-column>
-        <el-table-column sortable label="发布时间">
+        <el-table-column sortable label="发布时间" prop="updateTime">
           <template slot-scope="scope">
             {{[scope.row.updateTime, '{y}-{m}-{d}'] | formatTime}}
           </template>
