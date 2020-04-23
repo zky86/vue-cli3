@@ -52,6 +52,7 @@ import * as api from '@/api'
 export default {
   data () {
     return {
+      type: this.$route.query.type || 'article',
       dialogVisible: false,
       loading: false,
       tableData: [],
@@ -74,7 +75,6 @@ export default {
 
   mounted () {
     // console.log(this.$store.state.global)
-
   },
   beforeRouteEnter (to, from, next) {
     // const creatable = +to.params.id === 0
@@ -107,7 +107,8 @@ export default {
       const data = {
         pageSize: this.pageSize,
         pageIndex: this.pageIndex,
-        user_id: this.form.user_id
+        user_id: this.form.user_id,
+        type: this.type
       }
       this.loading = true
       const ret = await api.article.getList(data)

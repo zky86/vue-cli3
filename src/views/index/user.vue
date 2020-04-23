@@ -36,7 +36,7 @@
             {{[scope.row.updateTime, '{y}-{m}-{d}'] | formatTime}}
           </template>
         </el-table-column>
-        <el-table-column align="center" label="操作">
+        <el-table-column align="center" label="操作" width="260">
           <template slot-scope="scope">
             <el-button @click="check(scope.$index,scope.row)" size="small">查看</el-button>
             <el-button @click="edit(scope.$index,scope.row)" size="small">修改</el-button>
