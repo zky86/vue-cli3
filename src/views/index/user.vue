@@ -11,21 +11,34 @@
         list-type="picture-card"
         :http-request="UploadImage"
         :on-change="fileChange"
-        :file-list="fileList">
+        :file-list="fileList"
+      >
         <el-button size="small" type="primary">点击上传</el-button>
         <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
       </el-upload>
 
       <!-- 封装表格 -->
-      <c-table :api="api" :fields="fields"  style="padding-top:50px" @before-fetch="handleBeforeFetch" :columns="columns" >
-        <el-table-column slot="operation" label="操作" width="260">
-        <template slot-scope="scope">
-          <el-button type="text" @click="edit(scope.$index,scope.row)">编辑</el-button>
-        </template>
-      </el-table-column>
+      <c-table
+        :api="api"
+        :fields="fields"
+        style="padding-top:50px"
+        @before-fetch="handleBeforeFetch"
+        :columns="columns"
+      >
+        <el-table-column  sortable slot="timestamp"  label="预定时间" width="200">
+          <template slot-scope="scope">{{[scope.row.timestamp, '{y}-{m}-{d}'] | formatTime}}</template>
+        </el-table-column>
+        <el-table-column sortable  slot="updateTime" label="发布时间" >
+          <template slot-scope="scope">{{[scope.row.updateTime, '{y}-{m}-{d}'] | formatTime}}</template>
+        </el-table-column>
+        <el-table-column sortable slot="operation" label="操作" width="260">
+          <template slot-scope="scope">
+            <el-button type="text" @click="edit(scope.$index,scope.row)">编辑</el-button>
+          </template>
+        </el-table-column>
       </c-table>
 
-      <el-form :inline="true"  style="padding-top:50px">
+      <el-form :inline="true" style="padding-top:50px">
         <el-form-item>
           <el-input v-model="filters.username" placeholder="请输入姓名"></el-input>
         </el-form-item>
@@ -37,8 +50,7 @@
             end-placeholder="结束日期"
             value-format="timestamp"
             :picker-options="$utils.pickerOptions"
-          >
-          </el-date-picker>
+          ></el-date-picker>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" class @click="handleSearch">搜索</el-button>
@@ -50,27 +62,23 @@
         <el-table-column prop="username" sortable label="姓名" width="200"></el-table-column>
         <el-table-column prop="phone" sortable label="电话" width="200"></el-table-column>
         <el-table-column prop="timestamp" sortable label="预定时间" width="200">
-          <template slot-scope="scope">
-            {{[scope.row.timestamp, '{y}-{m}-{d}'] | formatTime}}
-          </template>
+          <template slot-scope="scope">{{[scope.row.timestamp, '{y}-{m}-{d}'] | formatTime}}</template>
         </el-table-column>
         <el-table-column sortable label="发布时间" prop="updateTime">
-          <template slot-scope="scope">
-            {{[scope.row.updateTime, '{y}-{m}-{d}'] | formatTime}}
-          </template>
+          <template slot-scope="scope">{{[scope.row.updateTime, '{y}-{m}-{d}'] | formatTime}}</template>
         </el-table-column>
         <el-table-column align="center" label="操作" width="260">
           <template slot-scope="scope">
             <el-button @click="check(scope.$index,scope.row)" size="small">查看</el-button>
             <el-button @click="edit(scope.$index,scope.row)" size="small">修改</el-button>
-            <el-popover
-              placement="top"
-              :ref="`pop-${scope.$index}`"
-              width="160"
-            >
+            <el-popover placement="top" :ref="`pop-${scope.$index}`" width="160">
               <p>确定删除吗？</p>
               <div style="text-align: right; margin: 0">
-                <el-button size="mini" type="text" @click="scope._self.$refs[`pop-${scope.$index}`].doClose()">取消</el-button>
+                <el-button
+                  size="mini"
+                  type="text"
+                  @click="scope._self.$refs[`pop-${scope.$index}`].doClose()"
+                >取消</el-button>
                 <el-button type="primary" size="mini" @click="del(scope)">确定</el-button>
               </div>
               <el-button slot="reference" type="primary" style="margin-left:15px" size="small">删除</el-button>
@@ -114,8 +122,8 @@
             v-model="addFilters.timestamp"
             type="date"
             value-format="timestamp"
-            placeholder="选择日期">
-          </el-date-picker>
+            placeholder="选择日期"
+          ></el-date-picker>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -163,10 +171,10 @@ export default {
       },
 
       columns: [
-        { prop: 'username', label: '姓名' },
-        { prop: 'phone', label: '电话' },
-        { prop: 'timestamp', label: '预定时间' },
-        { prop: 'updateTime', label: '发布时间' },
+        { prop: 'username', label: '姓名', width: '200', sortable: 'sortable' },
+        { prop: 'phone', label: '电话', width: '200', sortable: 'sortable' },
+        { slot: 'timestamp' },
+        { slot: 'updateTime' },
         { slot: 'operation' }
       ],
       api: p => api.user.getList(p),
@@ -204,7 +212,6 @@ export default {
           valueFormat: 'yyyy-MM-dd'
         }
       ]
-
     }
   },
   created () {},
@@ -276,7 +283,7 @@ export default {
       this.dialogVisible = true
     },
     confirm (formName) {
-      this.$refs.ruleForm.validate(async (valid) => {
+      this.$refs.ruleForm.validate(async valid => {
         if (valid) {
           this.loading = true
           const ret = await api.user.addUser(this.addFilters)
@@ -303,18 +310,21 @@ export default {
     UploadImage (param) {
       const formData = new FormData()
       formData.append('file', param.file)
-      api.common.upload(formData).then(ret => {
-        if (ret.code === 1) {
-          param.onSuccess() // 上传成功的图片会显示绿色的对勾
-          this.$message({
-            message: '添加成功',
-            type: 'success'
-          })
-        }
-        // 但是我们上传成功了图片， fileList 里面的值却没有改变，还好有on-change指令可以使用
-      }).catch(ret => {
-        param.onError()
-      })
+      api.common
+        .upload(formData)
+        .then(ret => {
+          if (ret.code === 1) {
+            param.onSuccess() // 上传成功的图片会显示绿色的对勾
+            this.$message({
+              message: '添加成功',
+              type: 'success'
+            })
+          }
+          // 但是我们上传成功了图片， fileList 里面的值却没有改变，还好有on-change指令可以使用
+        })
+        .catch(ret => {
+          param.onError()
+        })
     },
     fileChange (file) {
       this.$refs.upload.clearFiles() // 清除文件对象
@@ -325,7 +335,9 @@ export default {
     handleBeforeFetch (params) {
       // console.log(params)
       if (params.date) {
-        const { date: [startTime, endTime] } = params
+        const {
+          date: [startTime, endTime]
+        } = params
         params.startTime = startTime
         params.endTime = endTime
         delete params.date

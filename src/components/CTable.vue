@@ -43,14 +43,14 @@
             width="55"
             :key="index"
           ></el-table-column>
-          <slot v-else-if="column.slot" :name="column.slot"></slot>
+          <slot v-else-if="column.slot"  :name="column.slot"></slot>
           <component
             v-else-if="column.component"
             :is="column.component"
             :column="column"
             :key="index"
           ></component>
-          <el-table-column v-else v-bind="column" :key="index">
+          <el-table-column  v-else v-bind="column" :key="index">
             <template slot-scope="scope">
               {{
               column.filter
@@ -80,7 +80,6 @@
 
 <script>
 import * as utils from '@/utils/index'
-console.log(utils)
 export default {
   name: 'c-table',
   props: {
