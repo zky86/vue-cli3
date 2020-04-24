@@ -17,15 +17,11 @@
       </el-upload>
 
       <!-- 封装表格 -->
-      <c-table :api="api" :fields="fields"  style="padding-top:50px" @before-fetch="handleBeforeFetch" :columns="columns" >
-        <el-table-column slot="operation" label="操作" width="260">
-        <template slot-scope="scope">
-          <el-button type="text" @click="edit(scope.$index,scope.row)">编辑</el-button>
-        </template>
-      </el-table-column>
+      <c-table msg="Welcome to Your Vue.js App">
+
       </c-table>
 
-      <el-form :inline="true"  style="padding-top:50px">
+      <el-form :inline="true">
         <el-form-item>
           <el-input v-model="filters.username" placeholder="请输入姓名"></el-input>
         </el-form-item>
@@ -160,50 +156,7 @@ export default {
         username: [{ required: true, message: '请输入', trigger: 'blur' }],
         password: [],
         phone: []
-      },
-
-      columns: [
-        { prop: 'username', label: '姓名' },
-        { prop: 'phone', label: '电话' },
-        { prop: 'timestamp', label: '预定时间' },
-        { prop: 'updateTime', label: '发布时间' },
-        { slot: 'operation' }
-      ],
-      api: p => api.user.getList(p),
-      fields: [
-        {
-          prop: 'username',
-          placeholder: '请输入姓名',
-          clearable: true
-        },
-        {
-          prop: 'status',
-          placeholder: '状态',
-          component: 'select',
-          clearable: true,
-          filterable: true,
-          options: [
-            {
-              label: '开启',
-              value: '0'
-            },
-            {
-              label: '关闭',
-              value: '1'
-            }
-          ]
-        },
-        {
-          prop: 'date',
-          placeholder: '日期',
-          component: 'date-picker',
-          type: 'daterange',
-          rangeSeparator: '至',
-          startPlaceholder: '开始时间',
-          endPlaceholder: '结束时间',
-          valueFormat: 'yyyy-MM-dd'
-        }
-      ]
+      }
 
     }
   },
@@ -320,16 +273,6 @@ export default {
       this.$refs.upload.clearFiles() // 清除文件对象
       this.logo = file.raw // 取出上传文件的对象，在其它地方也可以使用
       this.fileList = [{ name: file.name, url: file.url }] // 重新手动赋值filstList， 免得自定义上传成功了, 而fileList并没有动态改变， 这样每次都是上传一个对象
-    },
-
-    handleBeforeFetch (params) {
-      // console.log(params)
-      if (params.date) {
-        const { date: [startTime, endTime] } = params
-        params.startTime = startTime
-        params.endTime = endTime
-        delete params.date
-      }
     }
   }
 }
