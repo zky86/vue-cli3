@@ -24,11 +24,12 @@ const role = {
 }
 
 const common = {
-  upload: params => createAPI('/common/upload', 'post', params, {
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
-  })
+  // upload: params => createAPI('/common/upload', 'post', params, {
+  //   headers: {
+  //     'Content-Type': 'multipart/form-data'
+  //   }
+  // })
+  upload: params => createAPI('/common/upload', 'post', params, {})
 }
 
 export { auth, menu, user, article, role, common }
