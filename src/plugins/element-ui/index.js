@@ -21,7 +21,7 @@ Object.defineProperty(Vue.prototype, '$_confirm', {
     let response
     Element.MessageBox({
       title: '提示',
-      message: `<span>此操作将<b style="padding: 0 2px;color: #333;">${operateText}</b>该项<b style="color: teal;padding-left:4px;">${name}</b>，是否继续？</span>`,
+      message: `<span>此操作将<b style="padding: 0 2px;color: #f67161;">${operateText}</b>该项<b style="padding-left:4px;">${name}</b>，是否继续？</span>`,
       showCancelButton: true,
       confirmButtonText: '确定',
       cancelButtonText: '取消',

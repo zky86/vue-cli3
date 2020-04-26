@@ -19,26 +19,33 @@
 
       <!-- 封装表格 -->
       <c-table
+        ref="table"
         :api="api"
         :fields="fields"
         style="padding-top:50px"
         @before-fetch="handleBeforeFetch"
         :columns="columns"
       >
-        <el-table-column  sortable slot="timestamp"  label="预定时间" width="200">
+        <el-button type="primary" slot="operate" @click="addFn">新增用户</el-button>
+        <el-table-column sortable slot="timestamp" prop="timestamp" label="预定时间" width="200">
           <template slot-scope="scope">{{[scope.row.timestamp, '{y}-{m}-{d}'] | formatTime}}</template>
         </el-table-column>
-        <el-table-column sortable  slot="updateTime" label="发布时间" >
+        <el-table-column sortable slot="updateTime" prop="updateTime" label="发布时间">
           <template slot-scope="scope">{{[scope.row.updateTime, '{y}-{m}-{d}'] | formatTime}}</template>
         </el-table-column>
-        <el-table-column sortable slot="operation" label="操作" width="260">
+        <el-table-column slot="operation" label="操作" width="260">
           <template slot-scope="scope">
-            <el-button type="text" @click="edit(scope.$index,scope.row)">编辑</el-button>
+            <el-button @click="check(scope.$index,scope.row)" size="small">查看</el-button>
+            <el-button @click="edit(scope.$index,scope.row)" size="small">修改</el-button>
+            <el-button type="primary" size="mini" @click="remove(scope)">删除</el-button>
           </template>
         </el-table-column>
       </c-table>
+    </div>
 
-      <el-form :inline="true" style="padding-top:50px">
+    <!-- 原生区域 -->
+    <div class="p2th" style="padding:50px 0;display:none">
+      <el-form :inline="true" >
         <el-form-item>
           <el-input v-model="filters.username" placeholder="请输入姓名"></el-input>
         </el-form-item>
@@ -87,18 +94,18 @@
           </template>
         </el-table-column>
       </el-table>
+      <!--工具条-->
+      <el-col :span="24" class="mt20">
+        <el-pagination
+          layout="total, sizes, prev, pager, next, jumper"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :page-size="pageSize"
+          :page-sizes="[5, 10, 15, 20]"
+          :total="total"
+        ></el-pagination>
+      </el-col>
     </div>
-    <!--工具条-->
-    <el-col :span="24" class="mt20">
-      <el-pagination
-        layout="total, sizes, prev, pager, next, jumper"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :page-size="pageSize"
-        :page-sizes="[5, 10, 15, 20]"
-        :total="total"
-      ></el-pagination>
-    </el-col>
 
     <el-dialog title="提示" :visible.sync="dialogVisible" width="50%">
       <el-form
@@ -169,38 +176,31 @@ export default {
         password: [],
         phone: []
       },
-
-      columns: [
-        { prop: 'username', label: '姓名', width: '200', sortable: 'sortable' },
-        { prop: 'phone', label: '电话', width: '200', sortable: 'sortable' },
-        { slot: 'timestamp' },
-        { slot: 'updateTime' },
-        { slot: 'operation' }
-      ],
       api: p => api.user.getList(p),
+      // 表单区域
       fields: [
         {
           prop: 'username',
           placeholder: '请输入姓名',
           clearable: true
         },
-        {
-          prop: 'status',
-          placeholder: '状态',
-          component: 'select',
-          clearable: true,
-          filterable: true,
-          options: [
-            {
-              label: '开启',
-              value: '0'
-            },
-            {
-              label: '关闭',
-              value: '1'
-            }
-          ]
-        },
+        // {
+        //   prop: 'status',
+        //   placeholder: '状态',
+        //   component: 'select',
+        //   clearable: true,
+        //   filterable: true,
+        //   options: [
+        //     {
+        //       label: '开启',
+        //       value: '0'
+        //     },
+        //     {
+        //       label: '关闭',
+        //       value: '1'
+        //     }
+        //   ]
+        // },
         {
           prop: 'date',
           placeholder: '日期',
@@ -209,9 +209,18 @@ export default {
           rangeSeparator: '至',
           startPlaceholder: '开始时间',
           endPlaceholder: '结束时间',
-          valueFormat: 'yyyy-MM-dd'
+          valueFormat: 'timestamp'
         }
+      ],
+      // 表格
+      columns: [
+        { prop: 'username', label: '姓名', width: '200', sortable: 'sortable' },
+        { prop: 'phone', label: '电话', width: '200', sortable: 'sortable' },
+        { slot: 'timestamp', sortable: 'sortable' },
+        { slot: 'updateTime', sortable: 'sortable' },
+        { slot: 'operation', sortable: 'sortable' }
       ]
+
     }
   },
   created () {},
@@ -275,10 +284,29 @@ export default {
           message: '删除成功',
           type: 'success'
         })
-        scope._self.$refs[`pop-${scope.$index}`].doClose()
+        // scope._self.$refs[`pop-${scope.$index}`].doClose()
         this.handleSearch()
+        this.$refs.table.reload()
       }
     },
+
+    remove (scope) {
+      this.$_confirm({
+        operateText: '删除',
+        name: scope.row.username,
+        operate: async () => {
+          const data = {
+            _id: scope.row._id
+          }
+          return await api.user.delUser(data)
+        },
+        callback: res => {
+          console.log(res)
+          res.success && this.$refs.table.data.splice(scope.$index, 1)
+        }
+      })
+    },
+
     async addFn () {
       this.dialogVisible = true
     },
@@ -289,13 +317,14 @@ export default {
           const ret = await api.user.addUser(this.addFilters)
           if (ret.code === 1) {
             this.$message({
-              message: '添加成功',
+              message: '操作成功',
               type: 'success'
             })
             this.$refs.ruleForm.resetFields()
             this.loading = false
             this.dialogVisible = false
             this.handleSearch()
+            this.$refs.table.reload()
           }
         } else {
           this.$message.error('请按提示补充完整信息...')
@@ -334,14 +363,14 @@ export default {
 
     handleBeforeFetch (params) {
       // console.log(params)
-      if (params.date) {
-        const {
-          date: [startTime, endTime]
-        } = params
-        params.startTime = startTime
-        params.endTime = endTime
-        delete params.date
-      }
+      // if (params.date) {
+      //   const {
+      //     date: [startTime, endTime]
+      //   } = params
+      //   params.startTime = startTime
+      //   params.endTime = endTime
+      //   delete params.date
+      // }
     }
   }
 }

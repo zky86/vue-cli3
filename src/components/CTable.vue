@@ -1,6 +1,8 @@
 <template>
   <div class="c-table">
     <el-form ref="form" :model="form" v-if="fields.length > 0 || $slots.operate" inline>
+
+      <!-- 表单区域 -->
       <template v-for="(field, index) in fields">
         <el-form-item
           :key="index"
@@ -34,22 +36,27 @@
       </el-form-item>
     </el-form>
 
+    <!-- 表格区域 -->
     <template v-if="columns.length > 0 || !$scopedSlots.default">
       <el-table v-loading="loading" v-bind="$attrs" v-on="$listeners" :data="data">
         <template v-for="(column, index) in columns">
+
           <el-table-column
             v-if="column.slot === 'selection'"
             type="selection"
             width="55"
             :key="index"
           ></el-table-column>
+
           <slot v-else-if="column.slot"  :name="column.slot"></slot>
+
           <component
             v-else-if="column.component"
             :is="column.component"
             :column="column"
             :key="index"
           ></component>
+
           <el-table-column  v-else v-bind="column" :key="index">
             <template slot-scope="scope">
               {{
@@ -59,6 +66,7 @@
               }}
             </template>
           </el-table-column>
+
         </template>
       </el-table>
     </template>
@@ -185,8 +193,8 @@ export default {
       clear: both;
     }
     .operate {
-      float: right;
-      margin-right: 0;
+      // float: right;
+      // margin-right: 0;
     }
     .el-input,
     .el-select {
