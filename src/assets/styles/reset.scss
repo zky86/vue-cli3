@@ -57,12 +57,16 @@ table { border-collapse: collapse; border-spacing: 0; }
 *:first-child+html .clearfix { zoom: 1; } /* IE7 */
 textarea, input{resize:none}
 a, textarea, input, button{outline:none}
-
-#app {
-  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+html, body, #app {
+  font-family: PingFang SC, 'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  background-color: #f7f8fa;
 }
+
 #nprogress .bar {
   background: $color-theme;
 }

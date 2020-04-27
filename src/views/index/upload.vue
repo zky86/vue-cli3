@@ -1,7 +1,6 @@
 <template>
-  <div v-loading="loading" element-loading-text="玩命加载中...">
+  <div v-loading="loading" class="card" element-loading-text="玩命加载中...">
     <div class="p1th mt20">
-      <h3 class="mb20">上传文件：</h3>
       <el-upload
         ref="upload"
         class="upload-demo mb20"

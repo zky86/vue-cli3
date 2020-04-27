@@ -1,14 +1,11 @@
 <template>
-  <div v-loading="loading" element-loading-text="玩命加载中...">
-    <div class="p1th mt20">
-      <h3 class="mb20">用户列表：</h3>
-
+  <div v-loading="loading" class="card" element-loading-text="玩命加载中...">
+    <div class="p1th">
       <!-- 封装表格 -->
       <c-table
         ref="table"
         :api="api"
         :fields="fields"
-        style="padding-top:50px"
         @before-fetch="handleBeforeFetch"
         :columns="columns"
       >
@@ -199,8 +196,8 @@ export default {
       ],
       // 表格
       columns: [
-        { prop: 'username', label: '姓名', width: '200', sortable: 'sortable' },
-        { prop: 'phone', label: '电话', width: '200', sortable: 'sortable' },
+        { prop: 'username', label: '姓名', width: '', sortable: 'sortable' },
+        { prop: 'phone', label: '电话', width: '', sortable: 'sortable' },
         { slot: 'timestamp', sortable: 'sortable' },
         { slot: 'updateTime', sortable: 'sortable' },
         { slot: 'operation', sortable: 'sortable' }

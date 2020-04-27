@@ -18,7 +18,4 @@
 
 <style lang="scss">
 @import '@/assets/styles/reset.scss';
-#app{
-  padding: 0px 20px;
-}
 </style>
