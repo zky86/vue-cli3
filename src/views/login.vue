@@ -57,7 +57,7 @@ export default {
               type: 'success'
             })
             this.$router.push({
-              name: 'login_state',
+              name: 'system',
               query: { token: ret.data.token }
             })
           }

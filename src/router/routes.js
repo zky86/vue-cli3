@@ -2,10 +2,9 @@ const index = () => import(/* webpackChunkName: "index" */ '@/views/index')
 const indexListId = () => import(/* webpackChunkName: "indexListId" */ '@/views/index/list/_id')
 const indexListIdArticle = () => import(/* webpackChunkName: "indexListIdArticle" */ '@/views/index/list/_id/article')
 const indexListIdComment = () => import(/* webpackChunkName: "indexListIdComment" */ '@/views/index/list/_id/comment')
-const indexUseBackup = () => import(/* webpackChunkName: "indexUseBackup" */ '@/views/index/use-backup')
 const indexUser = () => import(/* webpackChunkName: "indexUser" */ '@/views/index/user')
-const loginstate = () => import(/* webpackChunkName: "loginstate" */ '@/views/login_state')
 const login = () => import(/* webpackChunkName: "login" */ '@/views/login')
+const system = () => import(/* webpackChunkName: "system" */ '@/views/system')
 export default [
   {
     name: 'login',
@@ -13,20 +12,15 @@ export default [
     component: login
   },
   {
-    name: 'login_state',
-    path: '/login_state',
-    component: loginstate
+    name: 'system',
+    path: '/system',
+    component: system
   },
   {
     name: 'index',
     path: '/',
     component: index,
     children: [
-      {
-        name: 'index-use-backup',
-        path: 'use-backup',
-        component: indexUseBackup
-      },
       {
         name: 'index-user',
         path: 'user',

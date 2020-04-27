@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import * as api from '@/api'
+// import * as api from '@/api'
 export default {
   data () {
     return {}
@@ -13,15 +13,10 @@ export default {
   mounted () {},
 
   methods: {
-    login () {}
+
   }
 }
 </script>
 
 <style lang="scss">
-.p1th {
-  .btn {
-    text-align: center;
-  }
-}
 </style>
