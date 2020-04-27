@@ -88,6 +88,8 @@
 
 <script>
 import * as utils from '@/utils/index'
+import Masonry from 'masonry-layout'
+import imagesloaded from 'imagesloaded'
 export default {
   name: 'c-table',
   props: {
@@ -124,6 +126,12 @@ export default {
       }
     }
   },
+  created () {
+    // 属性绑定
+    this.fields.filter(x => x.prop).forEach(x => {
+      this.$set(this.form, x.prop, x.value)
+    })
+  },
   mounted () {
     this.fetch()
   },
@@ -149,7 +157,15 @@ export default {
         }
         if (this.columns.length === 0) {
           this.$nextTick(() => {
-            // const $container = this.$el.querySelector('.el-row')
+            const $container = this.$el.querySelector('.el-row')
+            imagesloaded($container, () => {
+              this.$masonry = new Masonry($container, {
+                columnWidth: '.el-col',
+                itemSelector: '.el-col',
+                percentPosition: true
+              })
+              this.loading = false
+            })
           })
         } else {
           this.loading = false
