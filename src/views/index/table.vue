@@ -3,20 +3,6 @@
     <div class="p1th mt20">
       <h3 class="mb20">用户列表：</h3>
 
-      <el-upload
-        ref="upload"
-        class="upload-demo mb20"
-        multiple
-        action="string"
-        list-type="picture-card"
-        :http-request="UploadImage"
-        :on-change="fileChange"
-        :file-list="fileList"
-      >
-        <el-button size="small" type="primary">点击上传</el-button>
-        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-      </el-upload>
-
       <!-- 封装表格 -->
       <c-table
         ref="table"
@@ -45,7 +31,7 @@
 
     <!-- 原生区域 -->
     <div class="p2th" style="padding:50px 0;display:none">
-      <el-form :inline="true" >
+      <el-form :inline="true">
         <el-form-item>
           <el-input v-model="filters.username" placeholder="请输入姓名"></el-input>
         </el-form-item>
@@ -157,7 +143,6 @@ export default {
       loading: false,
       dialogVisible: false,
       tableData: [],
-      fileList: [],
       total: 0,
       pageIndex: 1,
       pageSize: 10,
@@ -220,7 +205,6 @@ export default {
         { slot: 'updateTime', sortable: 'sortable' },
         { slot: 'operation', sortable: 'sortable' }
       ]
-
     }
   },
   created () {},
@@ -331,34 +315,6 @@ export default {
           return false
         }
       })
-    },
-    handleAvatarSuccess (res, file) {
-      console.log(res)
-    },
-
-    UploadImage (param) {
-      const formData = new FormData()
-      formData.append('file', param.file)
-      api.common
-        .upload(formData)
-        .then(ret => {
-          if (ret.code === 1) {
-            param.onSuccess() // 上传成功的图片会显示绿色的对勾
-            this.$message({
-              message: '添加成功',
-              type: 'success'
-            })
-          }
-          // 但是我们上传成功了图片， fileList 里面的值却没有改变，还好有on-change指令可以使用
-        })
-        .catch(ret => {
-          param.onError()
-        })
-    },
-    fileChange (file) {
-      this.$refs.upload.clearFiles() // 清除文件对象
-      this.logo = file.raw // 取出上传文件的对象，在其它地方也可以使用
-      this.fileList = [{ name: file.name, url: file.url }] // 重新手动赋值filstList， 免得自定义上传成功了, 而fileList并没有动态改变， 这样每次都是上传一个对象
     },
 
     handleBeforeFetch (params) {

@@ -7,7 +7,7 @@
           当前用户：<span class="fb mr10">{{this.$store.state.global.current_info.username}}</span>
         </el-form-item>
         <el-form-item>
-          <router-link :to="{ name:'index-user'}"><el-button type="primary" >返回用户列表</el-button></router-link>
+          <router-link :to="{ name:'index-table'}"><el-button type="primary" >返回用户列表</el-button></router-link>
         </el-form-item>
       </el-form>
 
@@ -63,7 +63,6 @@ export default {
 
   methods: {
     onClick (item) {
-      console.log(item)
       let type
       if (item.name === 'index-list-id-article') {
         type = 'article'

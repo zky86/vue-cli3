@@ -2,7 +2,8 @@ const index = () => import(/* webpackChunkName: "index" */ '@/views/index')
 const indexListId = () => import(/* webpackChunkName: "indexListId" */ '@/views/index/list/_id')
 const indexListIdArticle = () => import(/* webpackChunkName: "indexListIdArticle" */ '@/views/index/list/_id/article')
 const indexListIdComment = () => import(/* webpackChunkName: "indexListIdComment" */ '@/views/index/list/_id/comment')
-const indexUser = () => import(/* webpackChunkName: "indexUser" */ '@/views/index/user')
+const indexTable = () => import(/* webpackChunkName: "indexTable" */ '@/views/index/table')
+const indexUpload = () => import(/* webpackChunkName: "indexUpload" */ '@/views/index/upload')
 const login = () => import(/* webpackChunkName: "login" */ '@/views/login')
 const system = () => import(/* webpackChunkName: "system" */ '@/views/system')
 export default [
@@ -22,9 +23,14 @@ export default [
     component: index,
     children: [
       {
-        name: 'index-user',
-        path: 'user',
-        component: indexUser
+        name: 'index-table',
+        path: 'table',
+        component: indexTable
+      },
+      {
+        name: 'index-upload',
+        path: 'upload',
+        component: indexUpload
       },
       {
         name: 'index-list-id',
