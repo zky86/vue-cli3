@@ -3,18 +3,27 @@
     <aside class="aside">
       <div class="f16 title">功能列表：</div>
       <ul class="list">
+        <router-link v-for="(item, index) in nav" :key="index" :to="{ name: item.name}">
+          <li>{{item.txt}}</li>
+        </router-link>
+
+        <!-- <router-link :to="{ name: 'index-table'}">
+          <li>table组件封装</li>
+        </router-link>
         <router-link :to="{ name: 'index-upload'}">
           <li>上传文件</li>
         </router-link>
-
-        <router-link :to="{ name: 'index-table'}">
-          <li>table组件封装</li>
+        <router-link :to="{ name: 'index-upload'}">
+          <li>上传Excel写入数据库</li>
         </router-link>
+        <router-link :to="{ name: 'index-upload'}">
+          <li>爬虫抓取数据</li>
+        </router-link>-->
       </ul>
     </aside>
     <section>
       <main>
-        <h1 class="index-nav">NavBar 导航栏</h1>
+        <h1 class="index-nav">{{routerName}}</h1>
         <router-view class="view" />
       </main>
     </section>
@@ -23,10 +32,44 @@
 
 <script>
 // import * as api from '@/api'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 export default {
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      // 在内部获取不到外部的this，方法、变量等都获取不到。但是vm.XXXXX可以获取到
+      const arr = vm.nav.find((v) => v.name === vm.$route.name)
+      vm.routerName = arr.txt
+    })
+    NProgress.done()
+  },
   data () {
     return {
-      routerName: null
+      routerName: null,
+      nav: [
+        {
+          name: 'index-table',
+          txt: 'table组件封装'
+        },
+        {
+          name: 'index-upload',
+          txt: '上传文件'
+        },
+        {
+          name: 'index-excel',
+          txt: '上传Excel写入数据库'
+        }
+        // {
+        //   name: 'index-upload',
+        //   txt: '爬虫抓取数据'
+        // }
+      ]
+    }
+  },
+  watch: {
+    $route (to, from) {
+      const arr = this.nav.find((v) => v.name === this.$route.name)
+      this.routerName = arr.txt
     }
   },
   created () {},
@@ -95,6 +138,11 @@ export default {
           transition: color 0.2s;
         }
       }
+      .router-link-active {
+        li{
+          color: #f67161;
+        }
+      }
     }
   }
   > section {
@@ -132,7 +180,7 @@ export default {
       border-radius: 12px;
       box-shadow: 0 8px 12px #ebedf0;
     }
-    .index-nav{
+    .index-nav {
       margin: 0 0 30px;
       font-size: 30px;
       cursor: default;

@@ -13,7 +13,7 @@ export default {
     if (to.query.token) {
       store.commit('login', to.query.token)
     }
-    next({ name: 'index-upload' })
+    next({ name: 'index-table' })
     // next(vm => {
     //   // 在内部获取不到外部的this，方法、变量等都获取不到。但是vm.XXXXX可以获取到
     // })

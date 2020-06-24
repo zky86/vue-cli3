@@ -1,4 +1,5 @@
 const index = () => import(/* webpackChunkName: "index" */ '@/views/index')
+const indexExcel = () => import(/* webpackChunkName: "indexExcel" */ '@/views/index/excel')
 const indexListId = () => import(/* webpackChunkName: "indexListId" */ '@/views/index/list/_id')
 const indexListIdArticle = () => import(/* webpackChunkName: "indexListIdArticle" */ '@/views/index/list/_id/article')
 const indexListIdComment = () => import(/* webpackChunkName: "indexListIdComment" */ '@/views/index/list/_id/comment')
@@ -22,6 +23,11 @@ export default [
     path: '/',
     component: index,
     children: [
+      {
+        name: 'index-excel',
+        path: 'excel',
+        component: indexExcel
+      },
       {
         name: 'index-table',
         path: 'table',

@@ -1,5 +1,5 @@
 import cloneDeep from 'lodash/cloneDeep'
-
+:
 export { cloneDeep }
 
 export const objectToFormdata = (obj, form, namespace) => {
@@ -7,6 +7,7 @@ export const objectToFormdata = (obj, form, namespace) => {
   let formKey
 
   for (const property in obj) {
+    // eslint-disable-next-line no-prototype-builtins
     if (obj.hasOwnProperty(property)) {
       const key = Array.isArray(obj)
         ? `[${property}]`

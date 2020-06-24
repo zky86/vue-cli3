@@ -29,7 +29,8 @@ const common = {
   //     'Content-Type': 'multipart/form-data'
   //   }
   // })
-  upload: params => createAPI('/common/upload', 'post', params, {})
+  upload: params => createAPI('/common/upload', 'post', params, {}),
+  uploadExcel: params => createAPI('/common/uploadExcel', 'post', params, {})
 }
 
 export { auth, menu, user, article, role, common }
