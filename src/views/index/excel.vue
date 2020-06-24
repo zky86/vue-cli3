@@ -1,31 +1,38 @@
 <template>
   <div v-loading="loading" class="card" element-loading-text="玩命加载中...">
     <div class="p1th mt20">
+      <!-- :http-request="UploadImage" -->
       <el-upload
         ref="upload"
         class="upload-demo mb20"
         multiple
         action="string"
-        list-type="picture-card"
         :http-request="UploadImage"
         :on-change="fileChange"
+        accept="xls, xlsx"
         :file-list="fileList"
       >
         <el-button size="small" type="primary">点击上传</el-button>
         <div slot="tip" class="el-upload__tip"></div>
       </el-upload>
+
     </div>
   </div>
 </template>
 
 <script>
 import * as api from '@/api'
+import store from '@/store'
 export default {
   components: {},
   data () {
+    const token = `${store.state.token}`
     return {
       loading: false,
-      fileList: []
+      fileList: [],
+      importData: {
+        Authorization: token
+      }
     }
   },
   created () {},
@@ -43,7 +50,7 @@ export default {
           if (ret.code === 1) {
             param.onSuccess() // 上传成功的图片会显示绿色的对勾
             this.$message({
-              message: '添加成功',
+              message: '上传成功',
               type: 'success'
             })
           }

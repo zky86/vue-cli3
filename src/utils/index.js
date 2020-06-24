@@ -1,5 +1,5 @@
 import cloneDeep from 'lodash/cloneDeep'
-:
+
 export { cloneDeep }
 
 export const objectToFormdata = (obj, form, namespace) => {

@@ -69,7 +69,9 @@ export default {
   watch: {
     $route (to, from) {
       const arr = this.nav.find((v) => v.name === this.$route.name)
-      this.routerName = arr.txt
+      if (arr && arr.txt) {
+        this.routerName = arr.txt
+      }
     }
   },
   created () {},
