@@ -30,6 +30,7 @@ instance
     token && (config.headers.common.Authorization = token)
     if (config.method === 'post' && config.data) {
       if (config.headers['Content-Type'] === 'multipart/form-data') {
+        config.headers.common.Authorization = token
         config.data = utils.objectToFormdata(config.data)
         config.headers.common['Content-Type'] = 'multipart/form-data'
       }

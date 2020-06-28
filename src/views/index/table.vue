@@ -3,6 +3,7 @@
     <div class="p1th">
       <!-- 封装表格 -->
       <c-table
+        :page-size="pageSize"
         ref="table"
         :api="api"
         :fields="fields"

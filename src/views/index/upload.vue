@@ -10,6 +10,7 @@
         :http-request="UploadImage"
         :on-change="fileChange"
         :file-list="fileList"
+        accept="image/png,image/gif"
       >
         <el-button size="small" type="primary">点击上传</el-button>
         <div slot="tip" class="el-upload__tip"></div>

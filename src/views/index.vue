@@ -53,11 +53,11 @@ export default {
         },
         {
           name: 'index-upload',
-          txt: '上传文件'
+          txt: '上传图片'
         },
         {
           name: 'index-excel',
-          txt: '上传Excel写入数据库'
+          txt: '上传Excel'
         }
         // {
         //   name: 'index-upload',
