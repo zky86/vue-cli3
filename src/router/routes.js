@@ -1,3 +1,4 @@
+const componentPage = () => import(/* webpackChunkName: "componentPage" */ '@/views/componentPage')
 const index = () => import(/* webpackChunkName: "index" */ '@/views/index')
 const indexExcel = () => import(/* webpackChunkName: "indexExcel" */ '@/views/index/excel')
 const indexListId = () => import(/* webpackChunkName: "indexListId" */ '@/views/index/list/_id')
@@ -8,6 +9,11 @@ const indexUpload = () => import(/* webpackChunkName: "indexUpload" */ '@/views/
 const login = () => import(/* webpackChunkName: "login" */ '@/views/login')
 const system = () => import(/* webpackChunkName: "system" */ '@/views/system')
 export default [
+  {
+    name: 'componentPage',
+    path: '/componentPage',
+    component: componentPage
+  },
   {
     name: 'login',
     path: '/login',
