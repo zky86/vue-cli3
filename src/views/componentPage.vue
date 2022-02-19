@@ -4,7 +4,13 @@
 
     <br />
     <br />
-    <component-test ref="calcForm" v-model="foo" @on-price="onPrice" :head.sync="head" size='mini'>slog</component-test>
+    <component-test ref="calcForm" v-model="foo" @on-price="onPrice" :head.sync="head" size='mini'>
+      <template slot-scope="user">
+        slog
+        {{user.data}}
+      </template>
+        <!-- slog -->
+    </component-test>
     <br />
     <br />
     <el-button type="primary"  @click="dataClick">head.sync 回传给父组件值</el-button>
@@ -26,7 +32,9 @@ export default {
   },
   created () {},
 
-  mounted () {},
+  mounted () {
+    console.log(this.$refs.calcForm)
+  },
 
   methods: {
     onPrice (data) {

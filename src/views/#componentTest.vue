@@ -1,6 +1,6 @@
 <template>
   <div>
-    <slot></slot>
+    <slot :data="data"></slot>
     子组件内容:{{value}}
     <br />
     <br />
@@ -24,7 +24,9 @@ export default {
     }
   },
   data () {
-    return {}
+    return {
+      data: ['zhangsan', 'lisi', 'wanwu', 'zhaoliu', 'tianqi', 'xiaoba']
+    }
   },
   created () {
     console.log(this.value)
